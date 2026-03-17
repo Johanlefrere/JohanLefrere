@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Test",
-    "section": "",
-    "text": "const scene = new THREE.Scene(); const camera = new THREE.PerspectiveCamera(60, w/h, 0.1, 100); camera.position.set(2, 2, 2); const renderer = new THREE.WebGLRenderer( antialias: true ); renderer.setSize(w, h); container.appendChild(renderer.domElement);\nconst geo = new THREE.BoxGeometry(); const mat = new THREE.MeshStandardMaterial(); const mesh = new THREE.Mesh(geo, mat); scene.add(mesh);\nfunction animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }\nconst loader = new GLTFLoader(); loader.load(’model.glb’, (gltf) =&gt; { scene.add(gltf.scene); });\ncamera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);\nanimate();"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",

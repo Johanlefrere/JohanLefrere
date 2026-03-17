@@ -136,12 +136,40 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>const scene = new THREE.Scene(); const camera = new THREE.PerspectiveCamera(60, w/h, 0.1, 100); camera.position.set(2, 2, 2); const renderer = new THREE.WebGLRenderer( antialias: true ); renderer.setSize(w, h); container.appendChild(renderer.domElement);</p>
-<p>const geo = new THREE.BoxGeometry(); const mat = new THREE.MeshStandardMaterial(); const mesh = new THREE.Mesh(geo, mat); scene.add(mesh);</p>
-<p>function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }</p>
-<p>const loader = new GLTFLoader(); loader.load(’model.glb’, (gltf) =&gt; { scene.add(gltf.scene); });</p>
-<p>camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);</p>
-<p>animate();</p>
+<script type="module">
+
+  import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, w/h,
+  0.1, 100);
+  camera.position.set(2, 2, 2);
+  const renderer = new THREE.WebGLRenderer(
+  antialias: true );
+  renderer.setSize(w, h);
+  container.appendChild(renderer.domElement);
+
+  const geo = new THREE.BoxGeometry();
+  const mat = new THREE.MeshStandardMaterial();
+  const mesh = new THREE.Mesh(geo, mat);
+  scene.add(mesh);
+
+  function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+  }
+
+  const loader = new GLTFLoader();
+  loader.load(’model.glb’, (gltf) => {
+  scene.add(gltf.scene);
+  });
+
+
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+
+  animate();
+</script>
 
 
 
