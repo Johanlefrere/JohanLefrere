@@ -2,9 +2,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "monsite",
+    "title": "Mon Site 3D",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "Voici un cube 3D généré avec Three.js :"
+  },
+  {
+    "objectID": "index.html#bienvenue-sur-mon-site-quarto",
+    "href": "index.html#bienvenue-sur-mon-site-quarto",
+    "title": "Mon Site 3D",
+    "section": "",
+    "text": "Voici un cube 3D généré avec Three.js :"
   },
   {
     "objectID": "about.html",
