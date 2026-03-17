@@ -139,12 +139,15 @@ ul.task-list li input[type="checkbox"] {
 <script type="module">
 
   import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+  import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, w/h,
-  0.1, 100);
+  const camera = new THREE.PerspectiveCamera(60, w/h, 0.1, 100);
   camera.position.set(2, 2, 2);
-  const renderer = new THREE.WebGLRenderer(
-  antialias: true );
+  const renderer = new THREE.WebGLRenderer({antialias: true });
+  const container = document.getElementById('canvas-container');
+  const w = container.clientWidth;
+  const h = container.clientHeight;
   renderer.setSize(w, h);
   container.appendChild(renderer.domElement);
 
