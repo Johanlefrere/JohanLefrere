@@ -184,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
 
     // 5. Chargement du modèle GLB
     const loader = new GLTFLoader();
-    loader.load('model.glb', 
+    loader.load('/assets/manga.glb', 
       (gltf) => {
         scene.remove(cube); // On enlève le cube si le modèle charge
         scene.add(gltf.scene);
