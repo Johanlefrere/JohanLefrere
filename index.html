@@ -182,6 +182,11 @@ ul.task-list li input[type="checkbox"] {
     );
     scene.add(cube);
 
+    // --- NOUVEAUTÉ ---
+    // Variable pour stocker ton manga une fois chargé
+    let monManga; 
+    // -----------------
+
     // 5. Chargement du modèle GLB
     const loader = new GLTFLoader();
     loader.load('assets/manga.glb', 
@@ -189,6 +194,12 @@ ul.task-list li input[type="checkbox"] {
         scene.remove(cube); // On enlève le cube si le modèle charge
         gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
+
+        // --- NOUVEAUTÉ ---
+        // On assigne le modèle à notre variable pour pouvoir l'animer
+        monManga = gltf.scene; 
+        // -----------------
+
         console.log("Succès : Modèle GLB affiché");
       },
       undefined,
@@ -201,7 +212,17 @@ ul.task-list li input[type="checkbox"] {
     // 6. Animation
     function animate() {
       requestAnimationFrame(animate);
-      cube.rotation.y += 0.01;
+      
+      // --- MODIFICATION ---
+      // Si le manga est chargé, on le fait tourner
+      if (monManga) {
+        monManga.rotation.y += 0.005; 
+      } else {
+        // Sinon, c'est le cube de secours qui tourne en attendant
+        cube.rotation.y += 0.01;
+      }
+      // --------------------
+
       renderer.render(scene, camera);
     }
     animate();
