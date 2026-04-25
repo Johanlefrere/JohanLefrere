@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Test 3D – Johan Lefrere</title>
+<title>Manga – Johan Lefrere</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -123,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Test 3D</h1>
+<h1 class="title">Manga</h1>
 </div>
 
 
@@ -144,7 +144,6 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 <script type="module">
-  // On utilise esm.sh qui est plus robuste pour les sous-modules de Three.js
   import * as THREE from 'https://esm.sh/three@0.160.0';
   import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
@@ -154,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
     const w = container.clientWidth;
     const h = container.clientHeight;
 
-    // 1. Scène et Caméra
+    // Scène et Caméra
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x333333);
 
@@ -162,72 +161,51 @@ ul.task-list li input[type="checkbox"] {
     camera.position.set(0, 5, 18);
     camera.lookAt(0, 5, 0);
 
-    // 2. Rendu
+    // Rendu
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(w, h);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // 3. Lumières (Crucial pour le GLB)
+    // Lumières
     const ambient = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(ambient);
     const sun = new THREE.DirectionalLight(0xffffff, 1);
     sun.position.set(5, 10, 7);
     scene.add(sun);
 
-    // 4. Cube de secours (pour confirmer que le moteur tourne)
-    const cube = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshStandardMaterial({ color: "hotpink" })
-    );
-    scene.add(cube);
-
-    // --- NOUVEAUTÉ ---
-    // Variable pour stocker ton manga une fois chargé
     let monManga; 
-    // -----------------
 
-    // 5. Chargement du modèle GLB
+    // Chargement du modèle GLB
     const loader = new GLTFLoader();
     loader.load('assets/manga.glb', 
       (gltf) => {
-        scene.remove(cube); // On enlève le cube si le modèle charge
         gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
 
-        // --- NOUVEAUTÉ ---
-        // On assigne le modèle à notre variable pour pouvoir l'animer
         monManga = gltf.scene; 
-        // -----------------
 
         console.log("Succès : Modèle GLB affiché");
       },
       undefined,
       (err) => {
         console.error("Erreur GLTF :", err);
-        // Si le fichier model.glb est manquant, le cube rose restera visible
       }
     );
 
-    // 6. Animation
+    //  Animation
     function animate() {
       requestAnimationFrame(animate);
       
-      // --- MODIFICATION ---
       // Si le manga est chargé, on le fait tourner
       if (monManga) {
         monManga.rotation.y += 0.005; 
-      } else {
-        // Sinon, c'est le cube de secours qui tourne en attendant
-        cube.rotation.y += 0.01;
       }
-      // --------------------
 
       renderer.render(scene, camera);
     }
     animate();
 
-    // Responsive
     window.addEventListener('resize', () => {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
