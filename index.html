@@ -187,6 +187,7 @@ ul.task-list li input[type="checkbox"] {
     loader.load('assets/manga.glb', 
       (gltf) => {
         scene.remove(cube); // On enlève le cube si le modèle charge
+        gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
         console.log("Succès : Modèle GLB affiché");
       },
