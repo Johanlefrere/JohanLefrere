@@ -159,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
     scene.background = new THREE.Color(0x333333);
 
     const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 1000);
-    camera.position.set(20, 15, -10);
+    camera.position.set(0, 0, -10);
     camera.lookAt(1, 1, 0);
 
     // 2. Rendu
@@ -184,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
 
     // 5. Chargement du modèle GLB
     const loader = new GLTFLoader();
-    loader.load('assets/manga11.glb', 
+    loader.load('assets/manga.glb', 
       (gltf) => {
         scene.remove(cube); // On enlève le cube si le modèle charge
         scene.add(gltf.scene);
