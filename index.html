@@ -152,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
   import * as THREE from 'https://esm.sh/three@0.160.0';
   import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
   import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-  // 1. Nouvel import pour le DRACOLoader
+  // 1. Import du décodeur Draco
   import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
 
   const container = document.getElementById('canvas-container');
@@ -194,34 +194,38 @@ ul.task-list li input[type="checkbox"] {
 
     let monManga; 
 
-    // 2. Configuration du DRACOLoader
+    // 2. Configuration optimisée pour soulager la RAM du navigateur
     const dracoLoader = new DRACOLoader();
-    // On utilise les décodeurs officiels hébergés par Google
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
-    
-    // 3. On associe le DRACOLoader au GLTFLoader
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    dracoLoader.setDecoderConfig({ type: 'wasm' }); // Force la meilleure performance
+    dracoLoader.preload(); // Prépare la mémoire à l'avance
+
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
-    loader.load('assets/manga.glb', 
+    loader.load('assets/test.glb', 
       (gltf) => {
         gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
         monManga = gltf.scene; 
-        console.log("Succès : Modèle GLB compressé affiché");
+        console.log("Succès : Modèle GLB affiché");
 
+        // Masquer l'écran de chargement
         loaderUI.style.opacity = '0';
         setTimeout(() => loaderUI.style.display = 'none', 500);
+
+        // 3. Libérer la mémoire une fois le travail fini (Crucial pour les gros fichiers)
+        dracoLoader.dispose();
       },
       (xhr) => {
         if (xhr.lengthComputable) {
           const percent = Math.round((xhr.loaded / xhr.total) * 100);
-          loaderUI.innerText = `Chargement : ${percent}%`;
+          loaderUI.innerText = `Décompression en cours : ${percent}%`;
         }
       },
       (err) => {
         console.error("Erreur GLTF :", err);
-        loaderUI.innerText = "Erreur de chargement";
+        loaderUI.innerText = "Erreur : Le fichier dépasse la mémoire du navigateur.";
       }
     );
 
