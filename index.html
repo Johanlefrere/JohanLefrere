@@ -152,7 +152,6 @@ ul.task-list li input[type="checkbox"] {
   import * as THREE from 'https://esm.sh/three@0.160.0';
   import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
   import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-  // 1. Import du décodeur Draco
   import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
 
   const container = document.getElementById('canvas-container');
@@ -194,27 +193,29 @@ ul.task-list li input[type="checkbox"] {
 
     let monManga; 
 
-    // 2. Configuration optimisée pour soulager la RAM du navigateur
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    dracoLoader.setDecoderConfig({ type: 'wasm' }); // Force la meilleure performance
-    dracoLoader.preload(); // Prépare la mémoire à l'avance
+    dracoLoader.setDecoderConfig({ type: 'wasm' });
+    dracoLoader.preload();
 
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
-    loader.load('assets/compression.glb', 
+    loader.load('assets/manga.glb', 
       (gltf) => {
         gltf.scene.rotation.y = -Math.PI / 2;
+
+        const box = new THREE.Box3().setFromObject(gltf.scene);
+        const basDuModele = box.min.y;
+        gltf.scene.position.y = -basDuModele;
+
         scene.add(gltf.scene);
         monManga = gltf.scene; 
         console.log("Succès : Modèle GLB affiché");
 
-        // Masquer l'écran de chargement
         loaderUI.style.opacity = '0';
         setTimeout(() => loaderUI.style.display = 'none', 500);
 
-        // 3. Libérer la mémoire une fois le travail fini (Crucial pour les gros fichiers)
         dracoLoader.dispose();
       },
       (xhr) => {
