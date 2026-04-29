@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
-    loader.load('assets/test.glb', 
+    loader.load('assets/manga.glb', 
       (gltf) => {
         gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
