@@ -146,6 +146,7 @@ ul.task-list li input[type="checkbox"] {
 <script type="module">
   import * as THREE from 'https://esm.sh/three@0.160.0';
   import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+  import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
   const container = document.getElementById('canvas-container');
   
@@ -153,7 +154,6 @@ ul.task-list li input[type="checkbox"] {
     const w = container.clientWidth;
     const h = container.clientHeight;
 
-    // Scène et Caméra
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x333333);
 
@@ -161,30 +161,37 @@ ul.task-list li input[type="checkbox"] {
     camera.position.set(0, 5, 18);
     camera.lookAt(0, 5, 0);
 
-    // Rendu
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(w, h);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // Lumières
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 2.0;
+
+    const gridHelper = new THREE.GridHelper(20, 20);
+    scene.add(gridHelper);
+    
+    const axesHelper = new THREE.AxesHelper(5);
+    scene.add(axesHelper);
+
     const ambient = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(ambient);
+    
     const sun = new THREE.DirectionalLight(0xffffff, 1);
     sun.position.set(5, 10, 7);
     scene.add(sun);
 
     let monManga; 
 
-    // Chargement du modèle GLB
     const loader = new GLTFLoader();
     loader.load('assets/manga.glb', 
       (gltf) => {
         gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
-
         monManga = gltf.scene; 
-
         console.log("Succès : Modèle GLB affiché");
       },
       undefined,
@@ -193,15 +200,9 @@ ul.task-list li input[type="checkbox"] {
       }
     );
 
-    //  Animation
     function animate() {
       requestAnimationFrame(animate);
-      
-      // Si le manga est chargé, on le fait tourner
-      if (monManga) {
-        monManga.rotation.y += 0.005; 
-      }
-
+      controls.update();
       renderer.render(scene, camera);
     }
     animate();
