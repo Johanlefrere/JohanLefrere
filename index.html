@@ -140,7 +140,7 @@ ul.task-list li input[type="checkbox"] {
     <p><strong>Logiciel de photogrammétrie :</strong> RealityScan (Epic Games).</p>
     <p><strong>Prise de vue :</strong> <em>Environ 100 photos prises au smartphone (Samsung Galaxy S25 plus) avec un éclairage naturel</em>.</p>
     <p><strong>Défis rencontrés :</strong> J'ai dû exporter le modèle vers Blender pour supprimer les artefacts ainsi que la partie de la table qui avait été modélisée. Ensuite, j'ai dû compresser le fichier ".glb" car il était trop volumineux, puis gérer l'optimisation pour une lecture fluide sur le web.</p>
-    <p><strong>Intégration :</strong> Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, rendu d'ombres dynamiques, éclairage studio, et ajout de contrôles interactifs.</p>
+    <p><strong>Intégration :</strong> Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, éclairage studio optimisé sans ombres, et ajout de contrôles interactifs.</p>
   </div>
 
   <div class="canvas-section">
@@ -186,9 +186,7 @@ ul.task-list li input[type="checkbox"] {
     renderer.setSize(w, h);
     renderer.setPixelRatio(window.devicePixelRatio);
     
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    
+    // Environnement HDRI pour de beaux reflets (léger à calculer)
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
@@ -206,28 +204,11 @@ ul.task-list li input[type="checkbox"] {
     const axesHelper = new THREE.AxesHelper(5);
     scene.add(axesHelper);
 
-    const shadowPlaneGeo = new THREE.PlaneGeometry(50, 50);
-    const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.6 });
-    const shadowPlane = new THREE.Mesh(shadowPlaneGeo, shadowPlaneMat);
-    shadowPlane.rotation.x = -Math.PI / 2;
-    shadowPlane.receiveShadow = true;
-    scene.add(shadowPlane);
-
     const ambient = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambient);
     
     const sun = new THREE.DirectionalLight(0xffffff, 1.5);
     sun.position.set(10, 20, 10);
-    sun.castShadow = true;
-    sun.shadow.mapSize.width = 1024;
-    sun.shadow.mapSize.height = 1024;
-    sun.shadow.camera.near = 0.5;
-    sun.shadow.camera.far = 50;
-    sun.shadow.camera.left = -15;
-    sun.shadow.camera.right = 15;
-    sun.shadow.camera.top = 15;
-    sun.shadow.camera.bottom = -15;
-    sun.shadow.bias = -0.001;
     scene.add(sun);
 
     let monManga; 
@@ -247,13 +228,6 @@ ul.task-list li input[type="checkbox"] {
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const basDuModele = box.min.y;
         gltf.scene.position.y = -basDuModele;
-
-        gltf.scene.traverse((node) => {
-          if (node.isMesh) {
-            node.castShadow = true;
-            node.receiveShadow = true;
-          }
-        });
 
         scene.add(gltf.scene);
         monManga = gltf.scene; 
