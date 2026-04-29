@@ -133,36 +133,39 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="portfolio-container">
-<div class="description-section">
-<pre><code>&lt;h2 class="titre-projet"&gt;Ma Démarche de Numérisation&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Objet :&lt;/strong&gt; Tome 2 du manga Spy x Family.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Logiciel de photogrammétrie :&lt;/strong&gt; RealityScan (Epic Games).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Prise de vue :&lt;/strong&gt; &lt;em&gt;Environ 100 photos prises au smartphone (Samsung Galaxy S25 plus) avec un éclairage naturel&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Défis rencontrés :&lt;/strong&gt; J'ai dû exporter le modèle vers Blender pour supprimer les artefacts ainsi que la partie de la table qui avait été modélisée. Ensuite, j'ai dû compresser le fichier ".glb" car il était trop volumineux, puis gérer l'optimisation pour une lecture fluide sur le web.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Intégration :&lt;/strong&gt; Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, rendu d'ombres dynamiques, éclairage studio, et ajout de contrôles interactifs.&lt;/p&gt;</code></pre>
-</div>
-<div class="canvas-section">
-<pre><code>&lt;div id="scene-wrapper" style="position: relative; width: 100%;"&gt;
   
-  &lt;div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;"&gt;
-    Chargement du modèle 3D...
-  &lt;/div&gt;
-  
-  &lt;div style="position: absolute; bottom: 15px; right: 15px; z-index: 5; display: flex; gap: 10px;"&gt;
-    &lt;button id="btn-wireframe" style="padding: 8px 15px; cursor: pointer; background: rgba(52, 152, 219, 0.9); color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s;"&gt;Fil de fer : OFF&lt;/button&gt;
-    &lt;button id="btn-fullscreen" style="padding: 8px 15px; cursor: pointer; background: rgba(46, 204, 113, 0.9); color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s;"&gt;Plein Écran&lt;/button&gt;
-  &lt;/div&gt;
+  <div class="description-section">
+    <h2 class="titre-projet anchored">Ma Démarche de Numérisation</h2>
+    <p><strong>Objet :</strong> Tome 2 du manga Spy x Family.</p>
+    <p><strong>Logiciel de photogrammétrie :</strong> RealityScan (Epic Games).</p>
+    <p><strong>Prise de vue :</strong> <em>Environ 100 photos prises au smartphone (Samsung Galaxy S25 plus) avec un éclairage naturel</em>.</p>
+    <p><strong>Défis rencontrés :</strong> J'ai dû exporter le modèle vers Blender pour supprimer les artefacts ainsi que la partie de la table qui avait été modélisée. Ensuite, j'ai dû compresser le fichier ".glb" car il était trop volumineux, puis gérer l'optimisation pour une lecture fluide sur le web.</p>
+    <p><strong>Intégration :</strong> Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, rendu d'ombres dynamiques, éclairage studio, et ajout de contrôles interactifs.</p>
+  </div>
 
-  &lt;div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;"&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
+  <div class="canvas-section">
+    <div id="scene-wrapper" style="position: relative; width: 100%;">
+      
+      <div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;">
+        Chargement du modèle 3D...
+      </div>
+      
+      <div style="position: absolute; bottom: 15px; right: 15px; z-index: 5; display: flex; gap: 10px;">
+        <button id="btn-wireframe" style="padding: 8px 15px; cursor: pointer; background: rgba(52, 152, 219, 0.9); color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s;">Fil de fer : OFF</button>
+        <button id="btn-fullscreen" style="padding: 8px 15px; cursor: pointer; background: rgba(46, 204, 113, 0.9); color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s;">Plein Écran</button>
+      </div>
+
+      <div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;"></div>
+    </div>
+  </div>
+
 </div>
-</div>
+
 <script type="module">
   import * as THREE from '[https://esm.sh/three@0.160.0](https://esm.sh/three@0.160.0)';
   import { GLTFLoader } from '[https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js](https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js)';
   import { OrbitControls } from '[https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js](https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js)';
   import { DRACOLoader } from '[https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js](https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js)';
-  // Nouvel import pour l'éclairage réaliste de studio
   import { RoomEnvironment } from '[https://esm.sh/three@0.160.0/examples/jsm/environments/RoomEnvironment.js](https://esm.sh/three@0.160.0/examples/jsm/environments/RoomEnvironment.js)';
 
   const container = document.getElementById('canvas-container');
@@ -183,14 +186,11 @@ ul.task-list li input[type="checkbox"] {
     renderer.setSize(w, h);
     renderer.setPixelRatio(window.devicePixelRatio);
     
-    // --- NOUVEAU : ACTIVATION DES OMBRES ET DE L'ÉCLAIRAGE ---
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     
-    // Génération de l'environnement HDRI (Reflets)
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
-    // ---------------------------------------------------------
 
     container.appendChild(renderer.domElement);
 
@@ -206,16 +206,13 @@ ul.task-list li input[type="checkbox"] {
     const axesHelper = new THREE.AxesHelper(5);
     scene.add(axesHelper);
 
-    // --- NOUVEAU : CRÉATION DU SOL INVISIBLE POUR L'OMBRE ---
     const shadowPlaneGeo = new THREE.PlaneGeometry(50, 50);
     const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.6 });
     const shadowPlane = new THREE.Mesh(shadowPlaneGeo, shadowPlaneMat);
     shadowPlane.rotation.x = -Math.PI / 2;
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
-    // --------------------------------------------------------
 
-    // Lumières ajustées pour fonctionner avec l'environnement HDRI
     const ambient = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambient);
     
@@ -230,7 +227,7 @@ ul.task-list li input[type="checkbox"] {
     sun.shadow.camera.right = 15;
     sun.shadow.camera.top = 15;
     sun.shadow.camera.bottom = -15;
-    sun.shadow.bias = -0.001; // Évite les bugs graphiques sur les ombres
+    sun.shadow.bias = -0.001;
     scene.add(sun);
 
     let monManga; 
@@ -251,18 +248,15 @@ ul.task-list li input[type="checkbox"] {
         const basDuModele = box.min.y;
         gltf.scene.position.y = -basDuModele;
 
-        // --- NOUVEAU : APPLIQUER LES OMBRES SUR LE MANGA ---
         gltf.scene.traverse((node) => {
           if (node.isMesh) {
             node.castShadow = true;
             node.receiveShadow = true;
           }
         });
-        // ---------------------------------------------------
 
         scene.add(gltf.scene);
         monManga = gltf.scene; 
-        console.log("Succès : Modèle GLB affiché");
 
         loaderUI.style.opacity = '0';
         setTimeout(() => loaderUI.style.display = 'none', 500);
@@ -280,10 +274,7 @@ ul.task-list li input[type="checkbox"] {
         loaderUI.innerText = "Erreur : Le fichier dépasse la mémoire du navigateur.";
       }
     );
-
-    // --- NOUVEAU : LOGIQUE DES BOUTONS BONUS ---
     
-    // 1. Bouton Fil de Fer (Wireframe)
     let isWireframe = false;
     document.getElementById('btn-wireframe').addEventListener('click', (e) => {
       if (monManga) {
@@ -298,7 +289,6 @@ ul.task-list li input[type="checkbox"] {
       }
     });
 
-    // 2. Bouton Plein Écran (Fullscreen)
     document.getElementById('btn-fullscreen').addEventListener('click', () => {
       if (!document.fullscreenElement) {
         wrapper.requestFullscreen().catch(err => alert(`Erreur Plein Écran: ${err.message}`));
@@ -306,7 +296,6 @@ ul.task-list li input[type="checkbox"] {
         document.exitFullscreen();
       }
     });
-    // -------------------------------------------
 
     function animate() {
       requestAnimationFrame(animate);
@@ -316,7 +305,6 @@ ul.task-list li input[type="checkbox"] {
     animate();
 
     window.addEventListener('resize', () => {
-      // S'assure que le canvas prend toute la place même en plein écran
       const width = wrapper.clientWidth;
       const height = document.fullscreenElement ? window.innerHeight : 500;
       
