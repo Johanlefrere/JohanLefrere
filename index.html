@@ -152,6 +152,8 @@ ul.task-list li input[type="checkbox"] {
   import * as THREE from 'https://esm.sh/three@0.160.0';
   import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
   import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+  // 1. Nouvel import pour le DRACOLoader
+  import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
 
   const container = document.getElementById('canvas-container');
   const loaderUI = document.getElementById('loader');
@@ -192,20 +194,26 @@ ul.task-list li input[type="checkbox"] {
 
     let monManga; 
 
+    // 2. Configuration du DRACOLoader
+    const dracoLoader = new DRACOLoader();
+    // On utilise les décodeurs officiels hébergés par Google
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    
+    // 3. On associe le DRACOLoader au GLTFLoader
     const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
+
     loader.load('assets/compression.glb', 
       (gltf) => {
         gltf.scene.rotation.y = -Math.PI / 2;
         scene.add(gltf.scene);
         monManga = gltf.scene; 
-        console.log("Succès : Modèle GLB affiché");
+        console.log("Succès : Modèle GLB compressé affiché");
 
-        // Masquer l'écran de chargement une fois chargé
         loaderUI.style.opacity = '0';
         setTimeout(() => loaderUI.style.display = 'none', 500);
       },
       (xhr) => {
-        // Mise à jour de la barre de progression
         if (xhr.lengthComputable) {
           const percent = Math.round((xhr.loaded / xhr.total) * 100);
           loaderUI.innerText = `Chargement : ${percent}%`;
