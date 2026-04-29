@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manga – Johan Lefrere</title>
+<title>Numérisation 3D : Manga Spy x Family – Johan Lefrere</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -96,14 +96,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./projet.html"> 
-<span class="menu-text">Projet</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -123,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Manga</h1>
+<h1 class="title">Numérisation 3D : Manga Spy x Family</h1>
 </div>
 
 
@@ -140,12 +132,22 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div style="position: relative; width: 100%;">
-<div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;">
-<pre><code>Chargement du modèle 3D...</code></pre>
+<div class="portfolio-container">
+<div class="description-section">
+<pre><code>&lt;h2 class="titre-projet"&gt;Ma Démarche de Numérisation&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Objet :&lt;/strong&gt; Tome 2 du manga Spy x Family.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Logiciel de photogrammétrie :&lt;/strong&gt; RealityScan (Epic Games).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Prise de vue :&lt;/strong&gt; &lt;em&gt;[Remplacer par : ex. Environ 50 photos prises au smartphone avec un éclairage naturel]&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Défis rencontrés :&lt;/strong&gt; Le modèle brut généré était extrêmement lourd. J'ai dû l'exporter vers Sketchfab pour obtenir une véritable texture, puis gérer l'optimisation pour une lecture fluide sur le web.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Intégration :&lt;/strong&gt; Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, et ajout de contrôles orbitaux interactifs.&lt;/p&gt;</code></pre>
 </div>
-<div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;">
-
+<div class="canvas-section">
+<pre><code>&lt;div style="position: relative; width: 100%;"&gt;
+  &lt;div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;"&gt;
+    Chargement du modèle 3D...
+  &lt;/div&gt;
+  &lt;div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
 </div>
 </div>
 <script type="module">
@@ -221,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
       (xhr) => {
         if (xhr.lengthComputable) {
           const percent = Math.min(Math.round((xhr.loaded / xhr.total) * 100), 100);
-          loaderUI.innerText = `Décompression en cours : ${percent}%`;
+          loaderUI.innerText = `Chargement en cours : ${percent}%`;
         }
       },
       (err) => {
