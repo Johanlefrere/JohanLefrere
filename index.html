@@ -210,10 +210,11 @@ ul.task-list li input[type="checkbox"] {
     loader.load('assets/manga.glb', 
       (gltf) => {
         gltf.scene.rotation.y = -Math.PI / 2;
+        gltf.scene.updateMatrixWorld(true);
 
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const basDuModele = box.min.y;
-        const offset = 1.0;
+        const offset = 0.2;
         gltf.scene.position.y = -basDuModele;
 
         scene.add(gltf.scene);
