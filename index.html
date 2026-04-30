@@ -144,18 +144,10 @@ ul.task-list li input[type="checkbox"] {
   </div>
 
   <div class="canvas-section">
-    <!-- Ajout de l'ID scene-wrapper ici -->
-    <div id="scene-wrapper" style="position: relative; width: 100%;">
-      
+    <div style="position: relative; width: 100%;">
       <div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;">
         Chargement du modèle 3D...
       </div>
-
-      <!-- Le bouton Plein Écran -->
-      <div style="position: absolute; bottom: 15px; right: 15px; z-index: 5;">
-        <button id="btn-fullscreen" style="padding: 8px 15px; cursor: pointer; background: rgba(46, 204, 113, 0.9); color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s;">Plein Écran</button>
-      </div>
-
       <div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;"></div>
     </div>
   </div>
@@ -163,15 +155,13 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 <script type="module">
-  import * as THREE from '[https://esm.sh/three@0.160.0](https://esm.sh/three@0.160.0)';
-  import { GLTFLoader } from '[https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js](https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js)';
-  import { OrbitControls } from '[https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js](https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js)';
-  import { DRACOLoader } from '[https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js](https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js)';
+  import * as THREE from 'https://esm.sh/three@0.160.0';
+  import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+  import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+  import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
 
   const container = document.getElementById('canvas-container');
-  const wrapper = document.getElementById('scene-wrapper');
   const loaderUI = document.getElementById('loader');
-  const btnFullscreen = document.getElementById('btn-fullscreen');
   
   if (container) {
     const w = container.clientWidth;
@@ -210,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
     let monManga; 
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('[https://www.gstatic.com/draco/v1/decoders/](https://www.gstatic.com/draco/v1/decoders/)');
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     dracoLoader.setDecoderConfig({ type: 'wasm' });
     dracoLoader.preload();
 
@@ -245,43 +235,18 @@ ul.task-list li input[type="checkbox"] {
       }
     );
 
-    // --- LOGIQUE DU BOUTON PLEIN ÉCRAN ---
-    btnFullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        wrapper.requestFullscreen().catch(err => alert(`Erreur Plein Écran: ${err.message}`));
-      } else {
-        document.exitFullscreen();
-      }
-    });
-
-    window.addEventListener('resize', () => {
-      const width = wrapper.clientWidth;
-      const height = document.fullscreenElement ? window.innerHeight : 500;
-      
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-      
-      if(!document.fullscreenElement){
-        container.style.height = "500px";
-        btnFullscreen.innerText = "Plein Écran";
-      } else {
-        container.style.height = "100vh";
-        btnFullscreen.innerText = "Quitter";
-      }
-    });
-    
-    document.addEventListener('fullscreenchange', () => {
-        window.dispatchEvent(new Event('resize'));
-    });
-    // -------------------------------------
-
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
     }
     animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
   }
 </script>
 
