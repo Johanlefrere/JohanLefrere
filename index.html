@@ -214,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
 
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const basDuModele = box.min.y;
-        const offset = 0.2;
+        const offset = 0.3;
         gltf.scene.position.y = -basDuModele - offset;
 
         scene.add(gltf.scene);
