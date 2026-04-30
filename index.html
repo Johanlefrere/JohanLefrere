@@ -133,41 +133,35 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="portfolio-container">
-<div class="description-section">
-<pre><code>&lt;h2 class="titre-projet"&gt;Ma Démarche de Numérisation&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Objet :&lt;/strong&gt; Tome 2 du manga Spy x Family.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Logiciel de photogrammétrie :&lt;/strong&gt; RealityScan (Epic Games).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Prise de vue :&lt;/strong&gt; &lt;em&gt;Environ 100 photos prises au smartphone (Samsung Galaxy S25 plus) avec un éclairage naturel&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Défis rencontrés :&lt;/strong&gt; J'ai dû exporter le modèle vers Blender pour supprimer les artefacts ainsi que la partie de la table qui avait été modélisée. Ensuite, j'ai dû compresser le fichier ".glb" car il était trop volumineux, puis gérer l'optimisation pour une lecture fluide sur le web.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Intégration :&lt;/strong&gt; Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, et ajout de contrôles orbitaux interactifs.&lt;/p&gt;</code></pre>
-</div>
-<div class="canvas-section">
-<pre><code>&lt;!-- Ajout de l'ID scene-wrapper ici --&gt;
-&lt;div id="scene-wrapper" style="position: relative; width: 100%;"&gt;
   
-  &lt;div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;"&gt;
-    Chargement du modèle 3D...
-  &lt;/div&gt;
+  <div class="description-section">
+    <h2 class="titre-projet anchored">Ma Démarche de Numérisation</h2>
+    <p><strong>Objet :</strong> Tome 2 du manga Spy x Family.</p>
+    <p><strong>Logiciel de photogrammétrie :</strong> RealityScan (Epic Games).</p>
+    <p><strong>Prise de vue :</strong> <em>Environ 100 photos prises au smartphone (Samsung Galaxy S25 plus) avec un éclairage naturel</em>.</p>
+    <p><strong>Défis rencontrés :</strong> J'ai dû exporter le modèle vers Blender pour supprimer les artefacts ainsi que la partie de la table qui avait été modélisée. Ensuite, j'ai dû compresser le fichier ".glb" car il était trop volumineux, puis gérer l'optimisation pour une lecture fluide sur le web.</p>
+    <p><strong>Intégration :</strong> Utilisation de Three.js avec calcul automatique de la Bounding Box pour aligner le modèle parfaitement sur la grille, et ajout de contrôles orbitaux interactifs.</p>
+  </div>
 
-  &lt;!-- Le bouton Plein Écran --&gt;
-  &lt;div style="position: absolute; bottom: 15px; right: 15px; z-index: 5;"&gt;
-    &lt;button id="btn-fullscreen" style="padding: 8px 15px; cursor: pointer; background: rgba(46, 204, 113, 0.9); color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s;"&gt;Plein Écran&lt;/button&gt;
-  &lt;/div&gt;
+  <div class="canvas-section">
+    <div style="position: relative; width: 100%;">
+      <div id="loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #222; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2em; border-radius: 10px; z-index: 10; transition: opacity 0.5s ease;">
+        Chargement du modèle 3D...
+      </div>
+      <div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;"></div>
+    </div>
+  </div>
 
-  &lt;div id="canvas-container" style="width: 100%; height: 500px; background: #222; border-radius: 10px; overflow: hidden;"&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
 </div>
-</div>
+
 <script type="module">
-  import * as THREE from '[https://esm.sh/three@0.160.0](https://esm.sh/three@0.160.0)';
-  import { GLTFLoader } from '[https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js](https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js)';
-  import { OrbitControls } from '[https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js](https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js)';
-  import { DRACOLoader } from '[https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js](https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js)';
+  import * as THREE from 'https://esm.sh/three@0.160.0';
+  import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+  import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+  import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
 
   const container = document.getElementById('canvas-container');
-  const wrapper = document.getElementById('scene-wrapper');
   const loaderUI = document.getElementById('loader');
-  const btnFullscreen = document.getElementById('btn-fullscreen');
   
   if (container) {
     const w = container.clientWidth;
@@ -206,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
     let monManga; 
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('[https://www.gstatic.com/draco/v1/decoders/](https://www.gstatic.com/draco/v1/decoders/)');
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     dracoLoader.setDecoderConfig({ type: 'wasm' });
     dracoLoader.preload();
 
@@ -241,43 +235,18 @@ ul.task-list li input[type="checkbox"] {
       }
     );
 
-    // --- LOGIQUE DU BOUTON PLEIN ÉCRAN ---
-    btnFullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        wrapper.requestFullscreen().catch(err => alert(`Erreur Plein Écran: ${err.message}`));
-      } else {
-        document.exitFullscreen();
-      }
-    });
-
-    window.addEventListener('resize', () => {
-      const width = wrapper.clientWidth;
-      const height = document.fullscreenElement ? window.innerHeight : 500;
-      
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-      
-      if(!document.fullscreenElement){
-        container.style.height = "500px";
-        btnFullscreen.innerText = "Plein Écran";
-      } else {
-        container.style.height = "100vh";
-        btnFullscreen.innerText = "Quitter";
-      }
-    });
-    
-    document.addEventListener('fullscreenchange', () => {
-        window.dispatchEvent(new Event('resize'));
-    });
-    // -------------------------------------
-
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
     }
     animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
   }
 </script>
 
